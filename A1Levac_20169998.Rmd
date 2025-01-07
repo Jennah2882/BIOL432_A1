@@ -1,0 +1,68 @@
+---
+title: "A1P3"
+author: "Jennah Levac"
+date: "2025-01-07"
+output: html_document
+---
+
+[Github Link] (<https://github.com/Jennah2882/BIOL432_A1/tree/main>)
+
+```{r}
+setwd("C:/statistics/R/repositories/BIOL432_A1/BIOL432_A1/")
+DataSim<- read.csv("measurements_2.csv")
+```
+
+**Organizing the Data**
+
+```{r}
+library(dplyr)
+selData<- select(DataSim, Species, Observer, Volume)
+```
+```{r}
+avgVbyspecies <- selData %>%
+  group_by(Species) %>%
+  summarise(Average_Volume = mean(Volume))
+```
+
+```{r}
+knitr::kable(avgVbyspecies, caption = "Average Limb Volume per Beetle Species")
+```
+```{r}
+observations <- selData %>%
+  group_by(Species, Observer) %>%
+  summarise(NumObs = n(), .groups = "drop")
+```
+
+```{r}
+knitr::kable(observations, caption = "Number of Observations per Species and Observer")
+```
+
+**Setting a Theme and Graphing our Data**
+
+```{r}
+theme_pub <- function (base_size = 12, base_family = "") {theme_classic(base_size = base_size, base_family = base_family) %+replace%theme(axis.text = element_text(colour = "black"),axis.title.x = element_text(size=14),axis.text.x = element_text(size=10),axis.title.y = element_text(size=14,angle=90),axis.text.y = element_text(size=12),axis.ticks = element_blank(),panel.background = element_rect(fill="white"),panel.border = element_blank(),plot.title=element_text(face="bold", size=24))}
+```
+```{r, echo==FALSE}
+library(ggplot2)
+```
+```{r}
+ggplot(selData, aes(x = Species, y = Volume, fill = Species)) +
+  geom_boxplot() +
+  labs( x = "Species", y = "Limb Volume") +
+  theme_pub() +
+  theme(axis.text.x = element_text(angle = 10))
+```
+
+Figure 1: A visual comparison of average limb volume (measured in mm^3) for each species of beetle observed.
+
+```{r}
+ggplot(selData, aes(x = Volume)) +
+  geom_histogram(binwidth = 5, color = "black", fill = "orange") +
+  facet_wrap(~ Species, scales = "free_y") +
+  labs(
+    x = "Limb Volume",
+    y = "Frequency") +
+  theme_pub()
+```
+
+Figure 2: Shows frequency histograms displaying the distribution of limb volume per species.
