@@ -3,7 +3,7 @@ species_names<- c("Oryctes nasicornis", "Dorcus parallelipipedus", "Protaetia or
 species_vector <- sample(species_names, size = 100, replace = TRUE)
 set.seed(52)
 #A vector of 100 values for Limb_width (in mm), randomly selected using a distribution of your choice that makes sense for the width of limbs.
-limb_width <- runif(100, min=0, max=0.05)
+limb_width <- runif(100, min=0, max=0.5)
 #A vector of 100 values for Limb_length (in mm), again randomly selected from a distribution of your choosing, but the numbers must make sense.
 limb_length <- runif(100, min=0, max=80)
 #A vector of 100 values for Observer, randomly selected from a vector of 3 names
